@@ -43,7 +43,7 @@ _`Cookie storage added`
 
 ### Online demo
 
-[Demo](https://test-webcreek.firebaseapp.com/)
+[Demo](https://test-domain-b13e0.firebaseapp.com)
 
 ## Development server
 
