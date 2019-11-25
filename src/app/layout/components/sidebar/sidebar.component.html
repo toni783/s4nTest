@@ -1,0 +1,67 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+    <div class="list-group">
+        <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fas fa-home"></i>&nbsp;
+            <span>{{ 'Dashboard'  }}</span>
+        </a>
+
+        <a *ngIf="(currentUser$ | async)" [routerLink]="['/repo']" [routerLinkActive]="['router-link-active']"
+            class="list-group-item">
+            <i class="fa fab fa-github"></i>&nbsp;
+            <span>{{ 'Repos'  }}</span>
+        </a>
+
+
+
+
+        <div class="header-fields">
+
+            <div *ngIf="(currentUser$ | async) ; let user" class="nested-menu">
+                <a class="list-group-item p-0" (click)="addExpandClass('profile')">
+                    <span><img [src]="user.gitUser.avatar_url" class="sidebar-profile-pic"
+                            alt="sidebar-profile-pic">&nbsp; {{user.firstName}} {{user.lastName}}</span>
+                </a>
+                <li class="nested" [class.expand]="showMenu === 'profile'">
+                    <ul class="submenu">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa fab fa-github"></i> {{ user.gitUser.login }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-fw fa-envelope"></i> {{user.email}}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa fas fa-id-card"></i> {{user.personId}}
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-calendar"></i> {{user?.createdAt | date}}
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)" [routerLink]="['/repo']" routerLinkActive="router-link-active">
+                                <i class="fa fas fa-code"></i> Repos </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/dashboard']" (click)="onLoggedout()">
+                                <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out'  }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+
+        </div>
+    </div>
+    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+        <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>&nbsp;
+        <span>{{ 'Collapse Sidebar'  }}</span>
+    </div>
+</nav>

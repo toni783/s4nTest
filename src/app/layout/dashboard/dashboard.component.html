@@ -1,0 +1,211 @@
+<div class="mt-6" [@routerTransition]>
+    <h2 class="text-muted">Gilbert Morett <small>S4N Test</small></h2>
+    <ngb-alert *ngIf="showAlert" type="success" (close)="showAlert = false">Saved
+        Successfully</ngb-alert>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form [formGroup]="gitForm" (ngSubmit)="onSubmit()" role="form">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <input [ngClass]="{
+                                    'is-valid':
+                                        !gitForm.controls.firstName.errors &&
+                                        (gitForm.controls.firstName.dirty ||
+                                            gitForm.controls.firstName.touched),
+                                    'is-invalid':
+                                        gitForm.controls.firstName.errors &&
+                                        (gitForm.controls.firstName.dirty ||
+                                            gitForm.controls.firstName.touched)
+                                }" formControlName="firstName" placeholder="First Name" type="text"
+                                class="form-control " />
+                            <div class="valid-feedback"></div>
+
+                            <div class="invalid-feedback">
+                                Required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <input formControlName="lastName" [ngClass]="{
+                                    'is-valid':
+                                        !gitForm.controls.lastName.errors &&
+                                        (gitForm.controls.lastName.dirty ||
+                                            gitForm.controls.lastName.touched),
+                                    'is-invalid':
+                                        gitForm.controls.lastName.errors &&
+                                        (gitForm.controls.lastName.dirty ||
+                                            gitForm.controls.lastName.touched)
+                                }" placeholder="Last Name" type="text" class="form-control " />
+                            <div class="valid-feedback"></div>
+
+                            <div class="invalid-feedback">
+                                Required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <input formControlName="personId" [ngClass]="{
+                                    'is-valid':
+                                        !gitForm.controls.personId.errors &&
+                                        (gitForm.controls.personId.dirty ||
+                                            gitForm.controls.personId.touched),
+                                    'is-invalid':
+                                        gitForm.controls.personId.errors &&
+                                        (gitForm.controls.personId.dirty ||
+                                            gitForm.controls.personId.touched)
+                                }" placeholder="Id" type="text" class="form-control " />
+                            <div class="valid-feedback"></div>
+
+                            <div class="invalid-feedback">
+                                Required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input formControlName="createdAt" [ngClass]="{
+                                        'is-valid':
+                                            !gitForm.controls.createdAt
+                                                .errors &&
+                                            (gitForm.controls.createdAt.dirty ||
+                                                gitForm.controls.createdAt
+                                                    .touched),
+                                        'is-invalid':
+                                            gitForm.controls.createdAt.errors &&
+                                            (gitForm.controls.createdAt.dirty ||
+                                                gitForm.controls.createdAt
+                                                    .touched)
+                                    }" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                                    #d="ngbDatepicker" placement="bottom" />
+
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary " (click)="d.toggle()" type="button">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                                <div class="valid-feedback"></div>
+
+                                <div class="invalid-feedback">
+                                    Required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <input formControlName="email" [ngClass]="{
+                                    'is-valid':
+                                        !gitForm.controls.email.errors &&
+                                        (gitForm.controls.email.dirty ||
+                                            gitForm.controls.email.touched),
+                                    'is-invalid':
+                                        gitForm.controls.email.errors &&
+                                        (gitForm.controls.email.dirty ||
+                                            gitForm.controls.email.touched)
+                                }" placeholder="Email" type="text" class="form-control is-invalid" />
+                            <div class="valid-feedback"></div>
+
+                            <div class="invalid-feedback">
+                                Required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <input formControlName="gitUser" [ngClass]="{
+                                    'is-valid':
+                                        !gitForm.controls.gitUser.errors &&
+                                        (gitForm.controls.gitUser.dirty ||
+                                            gitForm.controls.gitUser
+                                                .touched),
+                                    'is-invalid':
+                                        (gitForm.controls.gitUser.errors &&
+                                            (gitForm.controls.gitUser
+                                                .dirty ||
+                                                gitForm.controls.gitUser
+                                                    .touched)) ||
+                                        searchFailed ||
+                                        totalItemsSearch < 1
+                                }" placeholder="Github Username" type="text" class="form-control "
+                                [ngbTypeahead]="search" [inputFormatter]="formatter" [resultFormatter]="formatter" />
+                            <span *ngIf="searching">searching...</span>
+
+                            <div class="valid-feedback"></div>
+
+                            <div class="invalid-feedback">
+                                {{
+                                    searchFailed
+                                        ? "Failed Search"
+                                        : totalItemsSearch < 1
+                                        ? "No Match Found"
+                                        : "Required"
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <button [disabled]="
+                                        !gitForm.valid ||
+                                        !this.gitForm.value.gitUser.login
+                                    " type="button" class="btn btn-lg btn-danger btn-block mb-3 mt-3" type="submit">
+                                    Submit
+                                </button>
+
+
+                            </div>
+
+                            <div *ngIf="isSubmmited" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <button [routerLink]="['/repo']" routerLinkActive="router-link-active" [disabled]="
+                                !isSubmmited
+                                        " type="button" class="btn btn-lg btn-dark btn-block mb-3 mt-3">
+                                    <i class="fa fab fa-github"></i> Go To Repos
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- <hr>
+    <div class="row">
+        <div class="col-xl-3 col-lg-6">
+            <app-stat [bgClass]="'primary'" [icon]="'fa-comments'" [count]="26" [label]="'New Comments!'"></app-stat>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'"></app-stat>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'">
+            </app-stat>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="13" [label]="'New Tickets!'"></app-stat>
+        </div>
+    </div>
+    <hr />
+    <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}
+    </ngb-alert>
+    <hr /> -->
+</div>

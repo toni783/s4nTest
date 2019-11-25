@@ -1,0 +1,160 @@
+<div class="mt-6" [@routerTransition]>
+    <h2 class="text-muted">Repo List</h2>
+
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card text-white bg-dark mb-3 mt-3">
+                <div class="card-header">Github Summary</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="text-center">
+                                <img class="profile-img" [src]="
+                              currentUser
+                                  .gitUser.avatar_url
+                          " alt="git-image" />
+                                <i *ngIf="!(repoList$ | async)" class="fa fas fa-spinner fa-spin"></i>
+
+                            </div>
+
+
+                            <div class="row mt-4">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <p class="card-text">
+                                        <strong>Github Username: </strong>
+                                        <i *ngIf="!(repoList$ | async)" class="fa fas fa-spinner fa-spin"></i>
+
+                                        {{ currentUser.gitUser.login}}
+                                    </p>
+
+                                    <p class="card-text">
+                                        <strong>Github Page: </strong>
+                                        <a href="javascript: void(0);" (click)="
+                                      goToWindow(
+                                          currentUser
+                                              .gitUser
+                                              .html_url
+                                      )">
+                                            <i *ngIf="!(repoList$ | async)" class="fa fas fa-spinner fa-spin"></i>
+
+                                            {{ currentUser.gitUser.html_url}}</a>
+                                    </p>
+
+                                    <p class="card-text">
+                                        <strong>Total Repos: </strong>
+                                        <i *ngIf="!(repoList$ | async)" class="fa fas fa-spinner fa-spin"></i>
+                                        {{ (repoList$ | async)?.length}}
+                                    </p>
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <p class="card-text">
+                                        <strong>Full Name: </strong>
+                                        <i *ngIf="!(repoList$ | async)" class="fa fas fa-spinner fa-spin"></i>
+
+                                        {{ currentUser.firstName}} {{ currentUser.lastName}}
+
+                                    </p>
+
+                                    <p class="card-text">
+                                        <strong>Email: </strong>
+                                        <i *ngIf="!(repoList$ | async)" class="fa fas fa-spinner fa-spin"></i>
+
+                                        {{ currentUser.email}}
+
+                                    </p>
+
+                                    <p class="card-text">
+                                        <strong>Id: </strong>
+                                        <i *ngIf="!(repoList$ | async)" class="fa fas fa-spinner fa-spin"></i>
+
+                                        {{ currentUser.personId}}
+
+                                    </p>
+
+
+                                    <p class="card-text">
+                                        <strong>Date: </strong>
+                                        <i *ngIf="!(repoList$ | async)" class="fa fas fa-spinner fa-spin"></i>
+
+                                        {{ currentUser.createdAt | date}}
+
+                                    </p>
+
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p-table #dt [columns]="cols" [value]="repoList$ | async" [responsive]="true" [paginator]="true"
+                [loading]="(repoList$ | async) ? false: true" [rows]="5">
+
+                <ng-template pTemplate="caption">
+                    <div>
+                        <input type="text" pInputText size="50" placeholder="Search" class="input-width"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')">
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                            {{col.header}}
+
+                        </th>
+                    </tr>
+                    <tr>
+
+                        <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                            <input *ngSwitchCase="'name'" pInputText class="input-width" type="text"
+                                [placeholder]="'Search ' + col.header"
+                                (input)="dt.filter($event.target.value, col.field, 'contains')">
+
+                            <input *ngSwitchCase="'description'" pInputText class="input-width" type="text"
+                                [placeholder]="'Search ' + col.header"
+                                (input)="dt.filter($event.target.value, col.field, 'contains')">
+
+                            <input *ngSwitchCase="'language'" pInputText class="input-width" type="text"
+                                [placeholder]="'Search ' + col.header"
+                                (input)="dt.filter($event.target.value, col.field, 'contains')">
+
+                            <input *ngSwitchCase="'default_branch'" pInputText class="input-width" type="text"
+                                [placeholder]="'Search ' + col.header"
+                                (input)="dt.filter($event.target.value, col.field, 'contains')">
+
+                            <input *ngSwitchCase="'git_url'" pInputText class="input-width" type="text"
+                                [placeholder]="'Search ' + col.header"
+                                (input)="dt.filter($event.target.value, col.field, 'contains')">
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td class="table-text-content" *ngFor="let col of columns">
+
+                            <span class="ui-column-title">{{col.header}}</span>
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+
+        </div>
+    </div>
+
+
+
+
+</div>
